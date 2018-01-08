@@ -111,7 +111,7 @@ class TDNet(object):
 					saver.save(sess,save_path=self.model_directory+'/3dnet_'+str(epoch)+'.cptk')
 
 
-	def discriminator(self.tdobj,phase_train=True,reuse=False):
+	def discriminator(self,tdobj,phase_train=True,reuse=False):
 		with tf.variable_scope('descriminator',reuse=reuse):
 			d1 = tf.nn.conv3d(tdobj,self.weights['wd1'],strides=self.strides,padding='SAME')
 			d1 = tf.contrib.layers.batch_norm(d1,is_training=phase_train)
