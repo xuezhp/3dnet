@@ -50,9 +50,10 @@ class TDNet(object):
 		# output of generator and discriminator
 		gen_z_out = self.generator(z_vec)
 		dis_z_out,dis_z_out_sigmoid = self.discriminator(gen_z_out)
-		dis_x_out,dis_x_out_sigmoid = self.discriminator(x_vec,reuse=True)
-		dis_x_out_sigmoid = tf.maximum(tf.minimum(dis_x_out_sigmoid,0.99),0.01)
 		dis_z_out_sigmoid = tf.maximum(tf.minimum(dis_z_out_sigmoid,0.99),0.01)
+
+		dis_x_out,dis_x_out_sigmoid = self.discriminator(x_vec,phase_train=True,reuse=True)
+		dis_x_out_sigmoid = tf.maximum(tf.minimum(dis_x_out_sigmoid,0.99),0.01)
 
 		# accurancy of discriminator
 		acc_x = tf.reduce_sum(tf.cast(dis_x_out_sigmoid>0.5,tf.int32))
@@ -78,12 +79,13 @@ class TDNet(object):
 			sess.run(tf.global_variables_initializer())
 
 			volumes = d.getAll(obj=self.objname,train=True,is_local=self.is_local,obj_ratio=self.obj_ratio)
+			print(self.objname)
 			volumes = volumes[...,np.newaxis].astype(np.float)
 
 			for epoch in range(self.num_epoch):
-				index = np.random.randint(len(volumes),size=self.batch_size)
+				ind = np.random.randint(len(volumes),size=self.batch_size)
 				# training obj data
-				x = volumes[index]
+				x = volumes[ind]
 				# noise vector
 				z_sample = np.random.normal(0,0.33,size=[self.batch_size,self.z_len]).astype(np.float32)
 				z = np.random.normal(0,0.33,size=[self.batch_size,self.z_len]).astype(np.float32)
@@ -93,11 +95,11 @@ class TDNet(object):
 
 				if dis_accuracy < self.dis_thresholding:
 					sess.run([optimizer_dis],feed_dict={z_vec:z,x_vec:x})
-					print('Training Discriminator', 'epoch:', epoch, 'Dis_loss:', discriminator_loss,\
+					print('Training Discriminator1', 'epoch:', epoch, 'Dis_loss:', discriminator_loss,\
 					 'Gen_loss:', generator_loss, 'Dis_acc:',dis_accuracy)
 
 				sess.run([optimizer_gen],feed_dict={z_vec:z})
-				print('Training Discriminator', 'epoch:', epoch, 'Dis_loss:', discriminator_loss,\
+				print('Training Generator', 'epoch:', epoch, 'Dis_loss:', discriminator_loss,\
 					'Gen_loss:', generator_loss, 'Dis_acc:',dis_accuracy)
 
 				# generate objects
@@ -105,7 +107,7 @@ class TDNet(object):
 					g_obj = sess.run(gen_test_net,feed_dict={z_vec:z})
 					if not os.path.exists(self.train_sample_directory):
 						os.makedirs(self.train_sample_directory)
-					g_obj.dump(train_sample_directory+'/3dnet_'+str(epoch))
+					g_obj.dump(self.train_sample_directory+'/3dnet_'+str(epoch))
 					id_ch = np.random.randint(0,self.batch_size,4)
 					for i in range(4):
 						if g_obj[id_ch[i]].max() > 0.5:
