@@ -165,7 +165,7 @@ if __name__ == '__main__':
 	if test:
 		pass
 	else:
-		3dnet = 3DNet(32,10000)
+		3dnet = 3DNet(32,10000,'chair')
 		3dnet.train()
 
 
