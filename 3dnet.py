@@ -168,16 +168,13 @@ class TDNet(object):
 		return self.generator(z,phase_train=False,reuse=True)
 
 if __name__ == '__main__':
+	os.environ["CUDA DEVICES"]="3"
 	test = False
 	if test:
 		pass
 	else:
 		tdnet = TDNet(32,10000,'chair')
 		tdnet.train()
-
-
-
-		
 
 
 # op1=tf.add(x,y)
