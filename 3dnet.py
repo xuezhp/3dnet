@@ -157,6 +157,8 @@ class TDNet(object):
 
 			g5 = tf.nn.conv3d_transpose(g4,self.weights['wg5'],(self.batch_size,64,64,64,1),strides=self.strides,padding='SAME')
 			g5 = tf.nn.tanh(g5)
+
+		print 'g5', g5
 		return g5
 
 	def gen_3d(self,z):
