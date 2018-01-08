@@ -1,7 +1,6 @@
 import tensorflow as tf
 import numpy as np
 import os
-os.environ["CUDA DEVICES"]="3"
 import visdom
 
 import dataIO as d
@@ -42,6 +41,7 @@ class TDNet(object):
 		self.weights['wd5']=tf.get_variable('wd5',shape=[4,4,4,512,1],initializer=xavier)
 
 	def train(self):
+		os.environ["CUDA DEVICES"]="3"
 		self.build_model()
 		z_vec = tf.placeholder(shape=[self.batch_size,self.z_len],dtype=tf.float32)
 		x_vec = tf.placeholder(shape=[self.batch_size,self.cube_l,self.cube_w,self.cube_h,1],dtype=tf.float32)
