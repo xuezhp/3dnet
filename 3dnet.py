@@ -20,8 +20,8 @@ class TDNet(object):
 		self.obj_ratio = 0.7
 		self.is_local = True
 
-		self.train_sample_directory='ss'
-		self.model_directory='ss'
+		self.train_sample_directory='./sample/'
+		self.model_directory='./models/'
 		
 	def build_model(self):
 		xavier=tf.contrib.layers.xavier_initializer()
@@ -37,7 +37,7 @@ class TDNet(object):
 		self.weights['wd4']=tf.get_variable('wd4',shape=[4,4,4,256,512],initializer=xavier)
 		self.weights['wd5']=tf.get_variable('wd5',shape=[4,4,4,512,1],initializer=xavier)
 
-	def train(self,config):
+	def train(self):
 		self.build_model()
 		z_vec = tf.placeholder(shape=[self.batch_size,self.z_len],dtype=tf.float32)
 		x_vec = tf.placeholder(shape=[self.batch_size,self.cube_l,self.cube_w,self.cube_h])
