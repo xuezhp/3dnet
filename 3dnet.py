@@ -5,7 +5,7 @@ import visdom
 
 import dataIO as d
 
-class 3DNet(object):
+class TDNet(object):
 	def __init__(self,batch_size,num_epoch,objname):
 		self.strides = [1,2,2,2,1]
 		self.weights = {}
@@ -165,7 +165,7 @@ if __name__ == '__main__':
 	if test:
 		pass
 	else:
-		3dnet = 3DNet(32,10000,'chair')
+		3dnet = TDNet(32,10000,'chair')
 		3dnet.train()
 
 
