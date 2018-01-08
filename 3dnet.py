@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import os
+os.environ["CUDA DEVICES"]="3"
 import visdom
 
 import dataIO as d
@@ -168,7 +169,6 @@ class TDNet(object):
 		return self.generator(z,phase_train=False,reuse=True)
 
 if __name__ == '__main__':
-	os.environ["CUDA DEVICES"]="3"
 	test = False
 	if test:
 		pass
