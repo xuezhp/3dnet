@@ -19,6 +19,9 @@ class TDNet(object):
 		self.objname = objname
 		self.obj_ratio = 0.7
 		self.is_local = True
+		self.beta1 = 0.5
+		self.gen_lr = 0.0025
+		self.dis_lr = 0.00001
 
 		self.train_sample_directory='./sample/'
 		self.model_directory='./models/'
@@ -64,8 +67,8 @@ class TDNet(object):
 
 		gen_test_net = self.generator(z_vec,phase_train=False,reuse=True)
 
-		optimizer_gen = tf.train.AdamOptimizer(learning_rata=gen_lr,beta1=beta1).minimize(gen_loss)
-		optimizer_dis = tf.train.AdamOptimizer(learning_rata=dis_lr,beta1=beta1).minimize(dis_loss)
+		optimizer_gen = tf.train.AdamOptimizer(learning_rata=self.gen_lr,beta1=self.beta1).minimize(gen_loss)
+		optimizer_dis = tf.train.AdamOptimizer(learning_rata=self.dis_lr,beta1=self.beta1).minimize(dis_loss)
 
 		vis = visdom.Visdom()
 		saver = tf.train.Saver()
