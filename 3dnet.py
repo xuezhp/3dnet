@@ -40,7 +40,7 @@ class TDNet(object):
 	def train(self):
 		self.build_model()
 		z_vec = tf.placeholder(shape=[self.batch_size,self.z_len],dtype=tf.float32)
-		x_vec = tf.placeholder(shape=[self.batch_size,self.cube_l,self.cube_w,self.cube_h],dtype=tf.float32)
+		x_vec = tf.placeholder(shape=[self.batch_size,self.cube_l,self.cube_w,self.cube_h,1],dtype=tf.float32)
 
 		# output of generator and discriminator
 		gen_z_out = self.generator(z_vec)
