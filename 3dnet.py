@@ -117,7 +117,7 @@ class TDNet(object):
 		return tf.maximum(x,alpha*x)
 
 	def discriminator(self,tdobj,phase_train=True,reuse=False):
-		with tf.variable_scope('descriminator',reuse=reuse):
+		with tf.variable_scope('discriminator',reuse=reuse):
 			d1 = tf.nn.conv3d(tdobj,self.weights['wd1'],strides=self.strides,padding='SAME')
 			d1 = tf.contrib.layers.batch_norm(d1,is_training=phase_train)
 			d1 = self.leaky_relu(d1,alpha=0.2)
