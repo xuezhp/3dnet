@@ -140,6 +140,8 @@ class TDNet(object):
 
 			d5 = tf.nn.conv3d(d4,self.weights['wd5'],strides=self.strides,padding='SAME')
 			d5_sigmoid = tf.sigmoid(d5)
+
+		print d5,d5_sigmoid
 		return d5,d5_sigmoid
 
 	def generator(self,z_vec,phase_train=True,reuse=False):
