@@ -67,8 +67,8 @@ class TDNet(object):
 
 		gen_test_net = self.generator(z_vec,phase_train=False,reuse=True)
 
-		optimizer_gen = tf.train.AdamOptimizer(learning_rata=self.gen_lr,beta1=self.beta1).minimize(gen_loss)
-		optimizer_dis = tf.train.AdamOptimizer(learning_rata=self.dis_lr,beta1=self.beta1).minimize(dis_loss)
+		optimizer_gen = tf.train.AdamOptimizer(learning_rate=self.gen_lr,beta1=self.beta1).minimize(gen_loss)
+		optimizer_dis = tf.train.AdamOptimizer(learning_rate=self.dis_lr,beta1=self.beta1).minimize(dis_loss)
 
 		vis = visdom.Visdom()
 		saver = tf.train.Saver()
