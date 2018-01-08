@@ -111,9 +111,9 @@ class TDNet(object):
 					saver.save(sess,save_path=self.model_directory+'/3dnet_'+str(epoch)+'.cptk')
 
 
-	def discriminator(self.3dobj,phase_train=True,reuse=False):
+	def discriminator(self.tdobj,phase_train=True,reuse=False):
 		with tf.variable_scope('descriminator',reuse=reuse):
-			d1 = tf.nn.conv3d(3dobj,self.weights['wd1'],strides=self.strides,padding='SAME')
+			d1 = tf.nn.conv3d(tdobj,self.weights['wd1'],strides=self.strides,padding='SAME')
 			d1 = tf.contrib.layers.batch_norm(d1,is_training=phase_train)
 			d1 = tf.nn.leaky_relu(d1,alpha=0.2)
 
@@ -165,8 +165,8 @@ if __name__ == '__main__':
 	if test:
 		pass
 	else:
-		3dnet = TDNet(32,10000,'chair')
-		3dnet.train()
+		tdnet = TDNet(32,10000,'chair')
+		tdnet.train()
 
 
 
