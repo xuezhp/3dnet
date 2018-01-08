@@ -48,7 +48,7 @@ class TDNet(object):
 		# output of generator and discriminator
 		gen_z_out = self.generator(z_vec)
 		dis_z_out,dis_z_out_sigmoid = self.discriminator(gen_z_out)
-		dis_x_out,dis_x_out_sigmoid = self.discriminator(x_vec)
+		dis_x_out,dis_x_out_sigmoid = self.discriminator(x_vec,reuse=True)
 		dis_x_out_sigmoid = tf.maximum(tf.minimum(dis_x_out_sigmoid,0.99),0.01)
 		dis_z_out_sigmoid = tf.maximum(tf.minimum(dis_z_out_sigmoid,0.99),0.01)
 
