@@ -26,10 +26,10 @@ class TDNet(object):
 	def build_model(self):
 		xavier=tf.contrib.layers.xavier_initializer()
 		self.weights['wg1']=tf.get_variable('wg1',shape=[4,4,4,512,self.z_len],initializer=xavier)
-		self.weights['wg2']=tf.get_variable('wg1',shape=[4,4,4,256,512],initializer=xavier)
-		self.weights['wg3']=tf.get_variable('wg1',shape=[4,4,4,128,256],initializer=xavier)
-		self.weights['wg4']=tf.get_variable('wg1',shape=[4,4,4,64,128],initializer=xavier)
-		self.weights['wg5']=tf.get_variable('wg1',shape=[4,4,4,1,64],initializer=xavier)
+		self.weights['wg2']=tf.get_variable('wg2',shape=[4,4,4,256,512],initializer=xavier)
+		self.weights['wg3']=tf.get_variable('wg3',shape=[4,4,4,128,256],initializer=xavier)
+		self.weights['wg4']=tf.get_variable('wg4',shape=[4,4,4,64,128],initializer=xavier)
+		self.weights['wg5']=tf.get_variable('wg5',shape=[4,4,4,1,64],initializer=xavier)
 
 		self.weights['wd1']=tf.get_variable('wd1',shape=[4,4,4,1,64],initializer=xavier)
 		self.weights['wd2']=tf.get_variable('wd2',shape=[4,4,4,64,128],initializer=xavier)
