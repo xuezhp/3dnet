@@ -138,7 +138,7 @@ class TDNet(object):
 			d4 = tf.contrib.layers.batch_norm(d4,is_training=phase_train)
 			d4 = self.leaky_relu(d4,alpha=0.2)
 
-			d5 = tf.nn.conv3d(d4,self.weights['wd5'],strides=self.strides,padding='SAME')
+			d5 = tf.nn.conv3d(d4,self.weights['wd5'],strides=[1,1,1,1,1],padding='VALID')
 			d5_sigmoid = tf.sigmoid(d5)
 
 		print d5,d5_sigmoid
