@@ -110,24 +110,26 @@ class TDNet(object):
 						os.makedirs(self.model_directory)
 					saver.save(sess,save_path=self.model_directory+'/3dnet_'+str(epoch)+'.cptk')
 
+	def leaky_relu(self,x,alpha=0.2):
+		return tf.maximum(x,alpha*x)
 
 	def discriminator(self,tdobj,phase_train=True,reuse=False):
 		with tf.variable_scope('descriminator',reuse=reuse):
 			d1 = tf.nn.conv3d(tdobj,self.weights['wd1'],strides=self.strides,padding='SAME')
 			d1 = tf.contrib.layers.batch_norm(d1,is_training=phase_train)
-			d1 = tf.nn.leaky_relu(d1,alpha=0.2)
+			d1 = self.leaky_relu(d1,alpha=0.2)
 
 			d2 = tf.nn.conv3d(d1,self.weights['wd2'],strides=self.strides,padding='SAME')
 			d2 = tf.contrib.layers.batch_norm(d2,is_training=phase_train)
-			d2 = tf.nn.leaky_relu(d2,alpha=0.2)
+			d2 = self.leaky_relu(d2,alpha=0.2)
 
 			d3 = tf.nn.conv3d(d2,self.weights['wd3'],strides=self.strides,padding='SAME')
 			d3 = tf.contrib.layers.batch_norm(d3,is_training=phase_train)
-			d3 = tf.nn.leaky_relu(d3,alpha=0.2)
+			d3 = self.leaky_relu(d3,alpha=0.2)
 
 			d4 = tf.nn.conv3d(d3,self.weights['wd4'],strides=self.strides,padding='SAME')
 			d4 = tf.contrib.layers.batch_norm(d4,is_training=phase_train)
-			d4 = tf.nn.leaky_relu(d4,alpha=0.2)
+			d4 = self.leaky_relu(d4,alpha=0.2)
 
 			d5 = tf.nn.conv3d(d4,self.weights['wd5'],strides=self.strides,padding='SAME')
 			d5_sigmoid = tf.sigmoid(d5)
