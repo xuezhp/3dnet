@@ -22,8 +22,8 @@ class TDNet(object):
 		self.obj_ratio = 0.7
 		self.is_local = True
 		self.beta1 = 0.5
-		self.gen_lr = 0.0025
-		self.dis_lr = 0.00001
+		self.gen_lr = 0.0005
+		self.dis_lr = 0.000005
 
 		self.train_sample_directory='./sample/'
 		self.model_directory='./models/'
