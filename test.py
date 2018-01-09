@@ -7,8 +7,8 @@ def plotvol(objname,is_local,obj_ratio):
 	volumes = volumes[...,np.newaxis].astype(np.float)
 	ind = np.random.randint(len(volumes),size=1)
 	x = volumes[ind]
-	d.plotFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),'Voxel_'+str(epoch)+'_'+str(i)+'.png')
-	d.plotMeshFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),threshold=0.5,filename='Mesh_'+str(epoch)+'_'+str(i)+'.png')
+	d.plotFromVoxels(x,'Voxel_'+str(epoch)+'_'+str(i)+'.png')
+	d.plotMeshFromVoxels(x,threshold=0.5,filename='Mesh_'+str(epoch)+'_'+str(i)+'.png')
 
 
 if __name__=="__main__":
