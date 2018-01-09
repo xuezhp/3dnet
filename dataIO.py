@@ -28,7 +28,7 @@ def getVF(path):
     faces = np.asarray([map(int,raw_data[i+2+n_vertices].split()) for i in range(n_faces)]) 
     return vertices, faces
 
-def plotFromVF(vertices, faces):
+def plotFromVF(vertices, faces,filename):
     input_vec = mesh.Mesh(np.zeros(faces.shape[0], dtype=mesh.Mesh.dtype))
     for i, f in enumerate(faces):
         for j in range(3):
@@ -38,22 +38,24 @@ def plotFromVF(vertices, faces):
     axes.add_collection3d(mplot3d.art3d.Poly3DCollection(input_vec.vectors))
     scale = input_vec.points.flatten(-1)
     axes.auto_scale_xyz(scale, scale, scale)
-    plt.show()
+    plt.savefig(filename)
+    # plt.show()
 
-def plotFromVoxels(voxels):
+def plotFromVoxels(voxels,filename):
     z,x,y = voxels.nonzero()
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter(x, y, -z, zdir='z', c= 'red')
-    plt.show()
+    # plt.show()
+    plt.savefig(filename)
 
 def getVFByMarchingCubes(voxels, threshold=0.5):
     v, f =  sk.marching_cubes(voxels, level=threshold)
     return v, f
 
-def plotMeshFromVoxels(voxels, threshold=0.5):
+def plotMeshFromVoxels(voxels, threshold=0.5,filename):
     v,f = getVFByMarchingCubes(voxels, threshold)
-    plotFromVF(v,f)
+    plotFromVF(v,f,filename)
 
 def plotVoxelVisdom(voxels, visdom, title):
     v, f = getVFByMarchingCubes(voxels)

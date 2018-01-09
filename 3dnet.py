@@ -86,12 +86,13 @@ class TDNet(object):
 				ind = np.random.randint(len(volumes),size=self.batch_size)
 				# training obj data
 				x = volumes[ind]
-				# noise vector
+				#noise vector
 				z_sample = np.random.normal(0,0.33,size=[self.batch_size,self.z_len]).astype(np.float32)
 				z = np.random.normal(0,0.33,size=[self.batch_size,self.z_len]).astype(np.float32)
 				discriminator_loss = sess.run([dis_loss],feed_dict={z_vec:z,x_vec:x})
 				generator_loss = sess.run([gen_loss],feed_dict={z_vec:z})
 				dis_accuracy = sess.run([dis_acc],feed_dict={z_vec:z,x_vec:x})
+				print 'dis_accuracy: ',dis_accuracy
 
 				if dis_accuracy < self.dis_thresholding:
 					sess.run([optimizer_dis],feed_dict={z_vec:z,x_vec:x})
@@ -103,7 +104,7 @@ class TDNet(object):
 					'Gen_loss:', generator_loss, 'Dis_acc:',dis_accuracy)
 
 				# generate objects
-				if epoch % 200 ==0:
+				if epoch % 5 ==0:
 					g_obj = sess.run(gen_test_net,feed_dict={z_vec:z})
 					if not os.path.exists(self.train_sample_directory):
 						os.makedirs(self.train_sample_directory)
@@ -111,7 +112,9 @@ class TDNet(object):
 					id_ch = np.random.randint(0,self.batch_size,4)
 					for i in range(4):
 						if g_obj[id_ch[i]].max() > 0.5:
-							d.poltVoxelVisdom(np.squeeze(g_obj[id_ch[i]]>0.5),vis,'_'.join(map(str,[epoch,i])))
+							# d.poltVoxelVisdom(np.squeeze(g_obj[id_ch[i]]>0.5),vis,'_'.join(map(str,[epoch,i])))
+							d.plotFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),'Voxel_'+str(epoch))
+							d.plotMeshFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),threshold=0.5,filename='Mesh_'+str(epoch))
 				if epoch % 50 == 10:
 					if not os.path.exists(self.model_directory):
 						os.makedirs(self.model_directory)
