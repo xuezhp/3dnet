@@ -56,9 +56,9 @@ class TDNet(object):
 		dis_x_out_sigmoid = tf.maximum(tf.minimum(dis_x_out_sigmoid,0.99),0.01)
 
 		# accurancy of discriminator
-		acc_x = tf.reduce_sum(tf.cast(dis_x_out_sigmoid>0.5,tf.int32))
-		acc_z = tf.reduce_sum(tf.cast(dis_z_out_sigmoid<0.5,tf.int32))
-		dis_acc = tf.divide(acc_x+acc_z,2*self.batch_size)
+		acc_x = tf.divide(tf.reduce_sum(tf.cast(dis_x_out_sigmoid>0.5,tf.int32)),self.batch_size)
+		acc_z = tf.divide(tf.reduce_sum(tf.cast(dis_z_out_sigmoid<0.5,tf.int32)),self.batch_size)
+		dis_acc = 0.5*(acc_x+acc_z)
 
 
 		# loss function
