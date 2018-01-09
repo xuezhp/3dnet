@@ -2,7 +2,7 @@
 import numpy as np
 import dataIO as d
 def plotvol(objname,is_local,obj_ratio):
-	print(self.objname)
+	print(objname)
 	volumes = d.getAll(obj=objname,train=True,is_local=is_local,obj_ratio=obj_ratio)
 	volumes = volumes[...,np.newaxis].astype(np.float)
 	ind = np.random.randint(len(volumes),1)
