@@ -91,8 +91,8 @@ class TDNet(object):
 				z = np.random.normal(0,0.33,size=[self.batch_size,self.z_len]).astype(np.float32)
 				discriminator_loss = sess.run(dis_loss,feed_dict={z_vec:z,x_vec:x})
 				generator_loss = sess.run(gen_loss,feed_dict={z_vec:z})
-				dis_accuracy = sess.run(dis_acc,feed_dict={z_vec:z,x_vec:x})
-				print 'dis_accuracy: ',dis_accuracy
+				dis_accuracy,x_acc,z_acc = sess.run([dis_acc,acc_x,acc_z],feed_dict={z_vec:z,x_vec:x})
+				print 'dis_accuracy,x_acc,z_acc: ',dis_accuracy,x_acc,z_acc
 
 				if dis_accuracy < self.dis_thresholding:
 					sess.run([optimizer_dis],feed_dict={z_vec:z,x_vec:x})
