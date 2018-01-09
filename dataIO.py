@@ -53,7 +53,7 @@ def getVFByMarchingCubes(voxels, threshold=0.5):
     v, f =  sk.marching_cubes(voxels, level=threshold)
     return v, f
 
-def plotMeshFromVoxels(voxels, threshold=0.5,filename):
+def plotMeshFromVoxels(voxels,filename,threshold=0.5):
     v,f = getVFByMarchingCubes(voxels, threshold)
     plotFromVF(v,f,filename)
 
