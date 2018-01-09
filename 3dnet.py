@@ -62,7 +62,7 @@ class TDNet(object):
 
 
 		# loss function
-		gen_loss = -1*tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(dis_z_out_sigmoid),logits=dis_z_out)
+		gen_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(dis_z_out_sigmoid),logits=dis_z_out)
 		dis_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(dis_x_out_sigmoid),logits=dis_x_out)\
 		+tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(dis_z_out_sigmoid),logits=dis_z_out)
 		gen_loss = tf.reduce_mean(gen_loss)
@@ -71,8 +71,9 @@ class TDNet(object):
 		gen_test_net = self.generator(z_vec,phase_train=False,reuse=True)
 
 		para_g = [var for var in tf.trainable_variables() if any(x in var.name for x in ['wg', 'bg', 'generator'])]
+		print para_g
 		para_d = [var for var in tf.trainable_variables() if any(x in var.name for x in ['wd', 'bd', 'discriminator'])]
-
+		print para_d
 		optimizer_gen = tf.train.AdamOptimizer(learning_rate=self.gen_lr,beta1=self.beta1).minimize(gen_loss,var_list=para_g)
 		optimizer_dis = tf.train.AdamOptimizer(learning_rate=self.dis_lr,beta1=self.beta1).minimize(dis_loss,var_list=para_d)
 
@@ -115,9 +116,10 @@ class TDNet(object):
 					id_ch = np.random.randint(0,self.batch_size,4)
 					for i in range(4):
 						if g_obj[id_ch[i]].max() > 0.5:
+							print "save files"
 							# d.poltVoxelVisdom(np.squeeze(g_obj[id_ch[i]]>0.5),vis,'_'.join(map(str,[epoch,i])))
-							d.plotFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),'Voxel_'+str(epoch)+'_'+str(i))
-							d.plotMeshFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),threshold=0.5,filename='Mesh_'+str(epoch)+'_'+str(i))
+							d.plotFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),'Voxel_'+str(epoch)+'_'+str(i)+'.png')
+							d.plotMeshFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),threshold=0.5,filename='Mesh_'+str(epoch)+'_'+str(i)+'.png')
 				if epoch % 2 == 10:
 					if not os.path.exists(self.model_directory):
 						os.makedirs(self.model_directory)
@@ -147,7 +149,7 @@ class TDNet(object):
 			d5 = tf.nn.conv3d(d4,self.weights['wd5'],strides=[1,1,1,1,1],padding='VALID')
 			d5_sigmoid = tf.sigmoid(d5)
 
-		print d5,d5_sigmoid
+		# print d5,d5_sigmoid
 		return d5,d5_sigmoid
 
 	def generator(self,z_vec,phase_train=True,reuse=False):
@@ -173,7 +175,7 @@ class TDNet(object):
 			g5 = tf.nn.conv3d_transpose(g4,self.weights['wg5'],(self.batch_size,64,64,64,1),strides=self.strides,padding='SAME')
 			g5 = tf.nn.tanh(g5)
 
-		print 'g5', g5
+		# print 'g5', g5
 		return g5
 
 	def gen_3d(self,z):
