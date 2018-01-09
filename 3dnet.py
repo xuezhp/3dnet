@@ -62,7 +62,7 @@ class TDNet(object):
 
 
 		# loss function
-		gen_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(dis_z_out_sigmoid),logits=dis_z_out)
+		gen_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(dis_z_out_sigmoid),logits=dis_z_out)
 		dis_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(dis_x_out_sigmoid),logits=dis_x_out)\
 		+tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(dis_z_out_sigmoid),logits=dis_z_out)
 		gen_loss = tf.reduce_mean(gen_loss)
