@@ -22,8 +22,8 @@ class TDNet(object):
 		self.obj_ratio = 0.7
 		self.is_local = True
 		self.beta1 = 0.5
-		self.gen_lr = 0.0001
-		self.dis_lr = 0.000005
+		self.gen_lr = 0.0025
+		self.dis_lr = 0.00001
 
 		self.train_sample_directory='./sample/'
 		self.model_directory='./models/'
@@ -109,6 +109,7 @@ class TDNet(object):
 
 				# generate objects
 				if epoch % 2 ==0:
+					print("sss----2")
 					g_obj = sess.run(gen_test_net,feed_dict={z_vec:z})
 					if not os.path.exists(self.train_sample_directory):
 						os.makedirs(self.train_sample_directory)
@@ -116,11 +117,12 @@ class TDNet(object):
 					id_ch = np.random.randint(0,self.batch_size,4)
 					for i in range(4):
 						if g_obj[id_ch[i]].max() > 0.5:
-							print "save files"
+							print("save files")
 							# d.poltVoxelVisdom(np.squeeze(g_obj[id_ch[i]]>0.5),vis,'_'.join(map(str,[epoch,i])))
 							d.plotFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),'Voxel_'+str(epoch)+'_'+str(i)+'.png')
 							d.plotMeshFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),threshold=0.5,filename='Mesh_'+str(epoch)+'_'+str(i)+'.png')
 				if epoch % 2 == 10:
+					print("sss----1")
 					if not os.path.exists(self.model_directory):
 						os.makedirs(self.model_directory)
 					saver.save(sess,save_path=self.model_directory+'/3dnet_'+str(epoch)+'.cptk')
@@ -186,7 +188,7 @@ if __name__ == '__main__':
 	if test:
 		pass
 	else:
-		tdnet = TDNet(32,10000,'chair')
+		tdnet = TDNet(32,1000,'chair')
 		tdnet.train()
 
 
