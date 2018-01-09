@@ -62,16 +62,19 @@ class TDNet(object):
 
 
 		# loss function
-		gen_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(dis_z_out),logits=dis_z_out)
-		dis_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(dis_x_out),logits=dis_x_out)\
-		+tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(dis_z_out),logits=dis_z_out)
+		gen_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(dis_z_out_sigmoid),logits=dis_z_out)
+		dis_loss = tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.ones_like(dis_x_out_sigmoid),logits=dis_x_out)\
+		+tf.nn.sigmoid_cross_entropy_with_logits(labels=tf.zeros_like(dis_z_out_sigmoid),logits=dis_z_out)
 		gen_loss = tf.reduce_mean(gen_loss)
 		dis_loss = tf.reduce_mean(dis_loss)
 
 		gen_test_net = self.generator(z_vec,phase_train=False,reuse=True)
 
-		optimizer_gen = tf.train.AdamOptimizer(learning_rate=self.gen_lr,beta1=self.beta1).minimize(gen_loss)
-		optimizer_dis = tf.train.AdamOptimizer(learning_rate=self.dis_lr,beta1=self.beta1).minimize(dis_loss)
+		para_g = [var for var in tf.trainable_variables() if any(x in var.name for x in ['wg', 'bg', 'generator'])]
+		para_d = [var for var in tf.trainable_variables() if any(x in var.name for x in ['wd', 'bd', 'discriminator'])]
+
+		optimizer_gen = tf.train.AdamOptimizer(learning_rate=self.gen_lr,beta1=self.beta1).minimize(gen_loss,var_list=para_g)
+		optimizer_dis = tf.train.AdamOptimizer(learning_rate=self.dis_lr,beta1=self.beta1).minimize(dis_loss,var_list=para_d)
 
 		vis = visdom.Visdom()
 		saver = tf.train.Saver()
