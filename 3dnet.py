@@ -104,7 +104,7 @@ class TDNet(object):
 					'Gen_loss:', generator_loss, 'Dis_acc:',dis_accuracy)
 
 				# generate objects
-				if epoch % 5 ==0:
+				if epoch % 2 ==0:
 					g_obj = sess.run(gen_test_net,feed_dict={z_vec:z})
 					if not os.path.exists(self.train_sample_directory):
 						os.makedirs(self.train_sample_directory)
@@ -113,9 +113,9 @@ class TDNet(object):
 					for i in range(4):
 						if g_obj[id_ch[i]].max() > 0.5:
 							# d.poltVoxelVisdom(np.squeeze(g_obj[id_ch[i]]>0.5),vis,'_'.join(map(str,[epoch,i])))
-							d.plotFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),'Voxel_'+str(epoch))
-							d.plotMeshFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),threshold=0.5,filename='Mesh_'+str(epoch))
-				if epoch % 50 == 10:
+							d.plotFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),'Voxel_'+str(epoch)+'_'+str(i))
+							d.plotMeshFromVoxels(np.squeeze(g_obj[id_ch[i]]>0.5),threshold=0.5,filename='Mesh_'+str(epoch)+'_'+str(i))
+				if epoch % 2 == 10:
 					if not os.path.exists(self.model_directory):
 						os.makedirs(self.model_directory)
 					saver.save(sess,save_path=self.model_directory+'/3dnet_'+str(epoch)+'.cptk')
