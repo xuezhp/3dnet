@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import os
+os.environ["CUDA DEVICES"]="3"
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 import sys
 import visdom
 
