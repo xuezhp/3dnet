@@ -12,4 +12,4 @@ def plotvol(objname,is_local,obj_ratio):
 
 
 if __name__=="__main__":
-	plotvol('chair',True,0.7):
+	plotvol('chair',True,0.7)
