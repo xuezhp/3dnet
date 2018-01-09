@@ -43,6 +43,7 @@ def plotFromVF(vertices, faces,filename):
     # plt.show()
 
 def plotFromVoxels(voxels,filename):
+    print voxels.nonzero()
     z,x,y = voxels.nonzero()
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
