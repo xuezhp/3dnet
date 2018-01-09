@@ -5,6 +5,7 @@ import scipy.ndimage as nd
 import scipy.io as io
 import numpy as np
 import matplotlib.pyplot as plt
+plt.switch_backend('agg')
 import skimage.measure as sk
 
 from mpl_toolkits import mplot3d
