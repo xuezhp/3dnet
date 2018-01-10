@@ -44,7 +44,7 @@ def plotFromVF(vertices, faces,filename):
 
 def plotFromVoxels(voxels,filename):
     print voxels.nonzero()
-    z,x,y,_,_,_ = voxels.nonzero()
+    z,x,y,_,_ = voxels.nonzero()
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     ax.scatter(x, y, -z, zdir='z', c= 'red')
